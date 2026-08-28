@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Панель управления - Анастасия Емельянова</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 p-8 font-sans">
+  <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow">
+    <h1 class="text-3xl font-bold mb-6">Добавление Reels / Видео</h1>
+    
+    <div id="auth-section" class="mb-8 p-6 bg-gray-50 border rounded-lg">
+      <h2 class="text-lg font-semibold mb-2">Авторизация</h2>
+      <p class="text-sm text-gray-500 mb-4">Для сохранения изменений нужен GitHub Token.</p>
+      <input type="password" id="gh-token" placeholder="ghp_..." class="w-full px-4 py-2 border rounded-md mb-4">
+      <button onclick="saveToken()" class="px-6 py-2 bg-blue-600 text-white rounded-md">Сохранить токен</button>
+      <button onclick="clearToken()" class="px-6 py-2 bg-red-100 text-red-600 rounded-md ml-2">Выйти</button>
+    </div>
+
+    <div id="editor-section" class="hidden">
+      <form id="reel-form" class="space-y-4 mb-8">
+        <div>
+          <label class="block text-sm font-medium mb-1">Название видео (для карточки)</label>
+          <input type="text" id="r-title" required class="w-full px-4 py-2 border rounded-md">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Краткое описание</label>
+          <input type="text" id="r-desc" class="w-full px-4 py-2 border rounded-md">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Ссылка (Instagram/TikTok/YouTube)</label>
+          <input type="url" id="r-url" required class="w-full px-4 py-2 border rounded-md">
+        </div>
+        <button type="submit" class="px-6 py-2 bg-green-600 text-white rounded-md w-full font-bold">Добавить на сайт</button>
+      </form>
+
+      <h2 class="text-xl font-bold mb-4">Текущие видео на сайте:</h2>
+      <div id="current-reels" class="space-y-2"></div>
+    </div>
+  </div>
+
+  <script>
+    const REPO_OWNER = 'globalteamgroup';
+    const REPO_NAME = 'anastasia'; // Repo name we will use
+    const FILE_PATH = 'reels.json';
+    
+    let token = localStorage.getItem('gh_token');
+    let currentReels = [];
+    let fileSha = '';
+
+    if (token) {
+      document.getElementById('gh-token').value = token;
+      showEditor();
+    }
+
+    function saveToken() {
+      token = document.getElementById('gh-token').value;
+      localStorage.setItem('gh_token', token);
+      showEditor();
+    }
+
+    function clearToken() {
+      localStorage.removeItem('gh_token');
+      token = null;
+      document.getElementById('auth-section').classList.remove('opacity-50');
+      document.getElementById('editor-section').style.display = 'none';
+      document.getElementById('gh-token').value = '';
+    }
+
+    async function showEditor() {
+      document.getElementById('auth-section').classList.add('opacity-50');
+      document.getElementById('editor-section').style.display = 'block';
+      await loadReels();
+    }
+
+    async function loadReels() {
+      try {
+        const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
+          headers: { 'Authorization': `token ${token}` }
+        });
+        const data = await res.json();
+        
+        if (data.content) {
+          fileSha = data.sha;
+          // GitHub Base64 decode supports unicode properly using decodeURIComponent
+          const content = decodeURIComponent(escape(atob(data.content)));
+          currentReels = JSON.parse(content);
+          renderReels();
+        } else {
+          currentReels = [];
+          renderReels();
+        }
+      } catch (e) {
+        console.error(e);
+        alert('Ошибка загрузки данных. Проверьте токен или наличие файла.');
+      }
+    }
+
+    function renderReels() {
+      const container = document.getElementById('current-reels');
+      container.innerHTML = '';
+      currentReels.forEach((reel, i) => {
+        container.innerHTML += `
+          <div class="p-4 border rounded-md flex justify-between items-center bg-gray-50">
+            <div class="overflow-hidden">
+              <div class="font-bold">${reel.title}</div>
+              <div class="text-sm text-gray-500 truncate w-64 md:w-96"><a href="${reel.url}" target="_blank" class="hover:underline">${reel.url}</a></div>
+            </div>
+            <button onclick="deleteReel(${i})" class="text-red-600 text-sm hover:underline ml-4">Удалить</button>
+          </div>
+        `;
+      });
+    }
+
+    async function deleteReel(index) {
+      if(!confirm('Удалить?')) return;
+      currentReels.splice(index, 1);
+      await saveToGitHub();
+    }
+
+    document.getElementById('reel-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newReel = {
+        title: document.getElementById('r-title').value,
+        description: document.getElementById('r-desc').value,
+        url: document.getElementById('r-url').value,
+      };
+      currentReels.unshift(newReel);
+      await saveToGitHub();
+      e.target.reset();
+    });
+
+    async function saveToGitHub() {
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(currentReels, null, 2))));
+      const btn = document.querySelector('button[type="submit"]');
+      const originalText = btn.innerText;
+      btn.innerText = 'Сохранение...';
+      btn.disabled = true;
+
+      try {
+        const body = {
+          message: 'Update reels',
+          content: content
+        };
+        if (fileSha) body.sha = fileSha;
+
+        const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!res.ok) throw new Error('Failed to save');
+        const data = await res.json();
+        fileSha = data.content.sha;
+        renderReels();
+        alert('Успешно сохранено! Изменения появятся на сайте через 1-2 минуты.');
+      } catch (e) {
+        console.error(e);
+        alert('Ошибка при сохранении!');
+      } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

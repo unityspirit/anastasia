@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Емельянова Анастасия | Психология Похудения</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Cormorant Garamond', 'serif'],
+            sans: ['Manrope', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-black text-white antialiased selection:bg-white selection:text-black">
+  <!-- Loader -->
+  <div id="loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black">
+    <div class="text-3xl font-heading mb-4 animate-pulse">Загрузка...</div>
+    <div class="w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
+      <div id="progress-bar" class="h-full bg-white w-0 transition-all duration-300"></div>
+    </div>
+  </div>
+
+  <canvas id="gl-canvas"></canvas>
+  <div class="grain-overlay"></div>
+
+  <nav class="fixed top-0 w-full z-40 px-6 py-4 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent">
+    <div class="font-heading text-2xl font-bold tracking-widest text-shadow">АНАСТАСИЯ</div>
+    <a href="#contact" class="px-6 py-2 border border-white/30 rounded-full text-sm uppercase tracking-widest hover:bg-white hover:text-black transition duration-300 backdrop-blur-sm">Записаться</a>
+  </nav>
+
+  <div id="ui-layer" class="relative z-10 w-full h-full">
+    <div class="stage">
+      
+      <!-- HERO -->
+      <section class="page is-active flex flex-col items-center justify-center text-center px-6 min-h-screen" id="hero">
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading mb-6 text-shadow reveal-3d max-w-4xl">Похудение без каторги</h1>
+        <p class="text-lg md:text-2xl font-sans font-light max-w-2xl text-shadow reveal-3d opacity-90">Тело меняется, когда меняется жизнь. Комплексное сопровождение через психологию срывов.</p>
+      </section>
+
+      <!-- PSYCHOLOGY -->
+      <section class="page flex flex-col items-start justify-center px-6 md:px-24 min-h-screen" id="psychology">
+        <h2 class="text-4xl md:text-6xl font-heading mb-8 text-shadow reveal-3d">Дело не в силе воли</h2>
+        <div class="max-w-xl space-y-6 reveal-3d">
+          <p class="text-lg md:text-xl text-shadow opacity-90 font-light">Срывы — это не про слабохарактерность. Это про то, что тело и психика работают в режиме дефицита и стресса.</p>
+          <p class="text-lg md:text-xl text-shadow opacity-90 font-light">Пока меняется только тарелка на столе, а не образ мышления — результат временный. Мы научимся справляться с эмоциями без еды.</p>
+        </div>
+      </section>
+
+      <!-- REELS (DYNAMIC) -->
+      <section class="page flex flex-col items-center justify-center px-6 min-h-screen" id="reels">
+        <h2 class="text-4xl md:text-6xl font-heading mb-12 text-shadow reveal-3d text-center">Полезные материалы</h2>
+        <div id="reels-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl reveal-3d">
+          <!-- Реелсы загружаются скриптом app.js -->
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="page flex flex-col items-center justify-center text-center px-6 min-h-screen" id="contact">
+        <h2 class="text-4xl md:text-6xl font-heading mb-8 text-shadow reveal-3d">Готовы изменить систему?</h2>
+        <p class="text-lg font-light mb-10 max-w-lg text-shadow reveal-3d">Запишитесь на бесплатную диагностическую консультацию.</p>
+        <form class="w-full max-w-md space-y-4 reveal-3d flex flex-col" onsubmit="event.preventDefault(); alert('Заявка отправлена!');">
+          <input type="text" placeholder="Имя" class="w-full px-6 py-4 bg-black/40 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-white backdrop-blur-md" required>
+          <input type="text" placeholder="Telegram / Телефон" class="w-full px-6 py-4 bg-black/40 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-white backdrop-blur-md" required>
+          <button type="submit" class="w-full px-6 py-4 bg-white text-black font-semibold uppercase tracking-widest rounded-xl hover:bg-gray-200 transition">Оставить заявку</button>
+        </form>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
