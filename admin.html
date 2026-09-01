@@ -3,49 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Панель управления - Анастасия Емельянова</title>
+  <title>Панель управления материалами — Анастасия Емельянова</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            milk: '#F7F3EC',
+            sage: '#8FA894',
+            sageDark: '#6E8B75',
+            sageLight: '#E8EFEA',
+            terracotta: '#E8B4A0',
+            terracottaDark: '#D48A70',
+            graphite: '#3A3733',
+          },
+          fontFamily: {
+            serif: ['Fraunces', 'serif'],
+            sans: ['Manrope', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="bg-gray-100 text-gray-800 p-8 font-sans">
-  <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow">
-    <h1 class="text-3xl font-bold mb-6">Добавление Reels / Видео</h1>
+<body class="bg-milk text-graphite p-6 md:p-12 font-sans antialiased min-h-screen">
+  <div class="max-w-3xl mx-auto bg-white/90 backdrop-blur-md p-8 sm:p-10 rounded-3xl border border-sage/30 shadow-xl">
     
-    <div id="auth-section" class="mb-8 p-6 bg-gray-50 border rounded-lg">
-      <h2 class="text-lg font-semibold mb-2">Авторизация</h2>
-      <p class="text-sm text-gray-500 mb-4">Для сохранения изменений нужен GitHub Token.</p>
-      <input type="password" id="gh-token" placeholder="ghp_..." class="w-full px-4 py-2 border rounded-md mb-4">
-      <button onclick="saveToken()" class="px-6 py-2 bg-blue-600 text-white rounded-md">Сохранить токен</button>
-      <button onclick="clearToken()" class="px-6 py-2 bg-red-100 text-red-600 rounded-md ml-2">Выйти</button>
+    <div class="flex items-center justify-between border-b border-sage/20 pb-6 mb-8">
+      <div>
+        <span class="text-xs uppercase tracking-widest text-sageDark font-semibold block mb-1">Панель управления</span>
+        <h1 class="text-2xl sm:text-3xl font-serif text-graphite font-normal">Управление Reels & Видео</h1>
+      </div>
+      <a href="index.html" class="text-xs font-medium text-sageDark hover:text-graphite px-4 py-2 rounded-full border border-sage/30 bg-milk hover:bg-white transition">
+        ← На сайт
+      </a>
     </div>
 
+    <!-- Авторизация -->
+    <div id="auth-section" class="mb-8 p-6 bg-sageLight/60 border border-sage/30 rounded-2xl">
+      <h2 class="text-base font-serif font-semibold text-graphite mb-1">Авторизация через GitHub Token</h2>
+      <p class="text-xs text-graphite/70 mb-4 font-light">
+        Для сохранения изменений напрямую в репозиторий введите ваш токен доступа:
+      </p>
+      
+      <div class="space-y-3">
+        <input type="password" id="gh-token" placeholder="ghp_..." class="w-full px-4 py-3 bg-white border border-sage/30 rounded-xl text-sm focus:outline-none focus:border-sage">
+        
+        <div class="flex flex-wrap gap-2 pt-1">
+          <button onclick="saveToken()" class="px-6 py-2.5 bg-sage hover:bg-sageDark text-white text-xs uppercase tracking-wider font-semibold rounded-xl shadow-sm transition">
+            Войти в панель
+          </button>
+          <button onclick="clearToken()" class="px-5 py-2.5 bg-white text-graphite border border-sage/30 text-xs uppercase tracking-wider font-medium rounded-xl hover:bg-milk transition">
+            Сбросить токен
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Форма добавления нового видео -->
     <div id="editor-section" class="hidden">
-      <form id="reel-form" class="space-y-4 mb-8">
+      <form id="reel-form" class="space-y-4 mb-10 p-6 bg-white border border-sage/25 rounded-2xl shadow-sm">
+        <h3 class="font-serif text-xl font-medium text-graphite border-b border-sage/15 pb-3">Добавить новое видео на сайт</h3>
+        
         <div>
-          <label class="block text-sm font-medium mb-1">Название видео (для карточки)</label>
-          <input type="text" id="r-title" required class="w-full px-4 py-2 border rounded-md">
+          <label class="block text-xs font-medium text-graphite mb-1">Название видео (для карточки)</label>
+          <input type="text" id="r-title" required placeholder="Например: 3 привычки, которые убирают срывы" class="w-full px-4 py-3 bg-milk/50 border border-sage/30 rounded-xl text-sm focus:outline-none focus:border-sage">
         </div>
+
         <div>
-          <label class="block text-sm font-medium mb-1">Краткое описание</label>
-          <input type="text" id="r-desc" class="w-full px-4 py-2 border rounded-md">
+          <label class="block text-xs font-medium text-graphite mb-1">Краткое описание (1-2 предложения)</label>
+          <input type="text" id="r-desc" placeholder="Разбор утренних ритуалов без стресса и спешки" class="w-full px-4 py-3 bg-milk/50 border border-sage/30 rounded-xl text-sm focus:outline-none focus:border-sage">
         </div>
+
         <div>
-          <label class="block text-sm font-medium mb-1">Ссылка (Instagram/TikTok/YouTube)</label>
-          <input type="url" id="r-url" required class="w-full px-4 py-2 border rounded-md">
+          <label class="block text-xs font-medium text-graphite mb-1">Ссылка на видео (Instagram Reels, YouTube, Telegram или Rutube)</label>
+          <input type="url" id="r-url" required placeholder="https://www.instagram.com/reel/..." class="w-full px-4 py-3 bg-milk/50 border border-sage/30 rounded-xl text-sm focus:outline-none focus:border-sage">
         </div>
-        <button type="submit" class="px-6 py-2 bg-green-600 text-white rounded-md w-full font-bold">Добавить на сайт</button>
+
+        <button type="submit" class="w-full py-3.5 bg-sage hover:bg-sageDark text-white text-xs uppercase tracking-wider font-semibold rounded-xl shadow transition">
+          + Опубликовать на сайте
+        </button>
       </form>
 
-      <h2 class="text-xl font-bold mb-4">Текущие видео на сайте:</h2>
-      <div id="current-reels" class="space-y-2"></div>
+      <!-- Список текущих видео -->
+      <div>
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-serif text-xl font-medium text-graphite">Текущие видео на сайте:</h3>
+          <span id="reels-count" class="text-xs text-graphite/60">0 видео</span>
+        </div>
+        <div id="current-reels" class="space-y-3"></div>
+      </div>
     </div>
+
   </div>
 
   <script>
-    const REPO_OWNER = 'globalteamgroup';
-    const REPO_NAME = 'anastasia'; // Repo name we will use
+    let REPO_OWNER = 'unityspirit'; // Текущий владелец репозитория
+    const REPO_NAME = 'anastasia';
     const FILE_PATH = 'reels.json';
     
-    let token = localStorage.getItem('gh_token');
+    let token = localStorage.getItem('gh_token') || '';
     let currentReels = [];
     let fileSha = '';
 
@@ -55,7 +118,7 @@
     }
 
     function saveToken() {
-      token = document.getElementById('gh-token').value;
+      token = document.getElementById('gh-token').value.trim();
       localStorage.setItem('gh_token', token);
       showEditor();
     }
@@ -69,7 +132,7 @@
     }
 
     async function showEditor() {
-      document.getElementById('auth-section').classList.add('opacity-50');
+      document.getElementById('auth-section').classList.add('opacity-60');
       document.getElementById('editor-section').style.display = 'block';
       await loadReels();
     }
@@ -77,13 +140,12 @@
     async function loadReels() {
       try {
         const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
-          headers: { 'Authorization': `token ${token}` }
+          headers: token ? { 'Authorization': `token ${token}` } : {}
         });
         const data = await res.json();
         
         if (data.content) {
           fileSha = data.sha;
-          // GitHub Base64 decode supports unicode properly using decodeURIComponent
           const content = decodeURIComponent(escape(atob(data.content)));
           currentReels = JSON.parse(content);
           renderReels();
@@ -93,28 +155,42 @@
         }
       } catch (e) {
         console.error(e);
-        alert('Ошибка загрузки данных. Проверьте токен или наличие файла.');
+        alert('Ошибка загрузки данных. Проверьте токен.');
       }
     }
 
     function renderReels() {
       const container = document.getElementById('current-reels');
+      const countEl = document.getElementById('reels-count');
       container.innerHTML = '';
+      
+      if (countEl) countEl.textContent = `${currentReels.length} видео`;
+
+      if (currentReels.length === 0) {
+        container.innerHTML = '<p class="text-xs text-graphite/50 p-6 bg-milk/50 rounded-2xl text-center">Пока нет загруженных видео. Добавьте первое выше!</p>';
+        return;
+      }
+
       currentReels.forEach((reel, i) => {
         container.innerHTML += `
-          <div class="p-4 border rounded-md flex justify-between items-center bg-gray-50">
+          <div class="p-5 border border-sage/20 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center bg-milk/40 gap-4">
             <div class="overflow-hidden">
-              <div class="font-bold">${reel.title}</div>
-              <div class="text-sm text-gray-500 truncate w-64 md:w-96"><a href="${reel.url}" target="_blank" class="hover:underline">${reel.url}</a></div>
+              <div class="font-serif font-medium text-base text-graphite">${reel.title}</div>
+              <div class="text-xs text-graphite/60 truncate max-w-sm md:max-w-lg">
+                <a href="${reel.url}" target="_blank" class="hover:underline text-sageDark">${reel.url}</a>
+              </div>
+              ${reel.description ? `<div class="text-xs text-graphite/70 mt-1 font-light">${reel.description}</div>` : ''}
             </div>
-            <button onclick="deleteReel(${i})" class="text-red-600 text-sm hover:underline ml-4">Удалить</button>
+            <button onclick="deleteReel(${i})" class="px-4 py-2 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl text-xs font-semibold whitespace-nowrap transition">
+              Удалить
+            </button>
           </div>
         `;
       });
     }
 
     async function deleteReel(index) {
-      if(!confirm('Удалить?')) return;
+      if (!confirm('Вы уверены, что хотите удалить это видео?')) return;
       currentReels.splice(index, 1);
       await saveToGitHub();
     }
@@ -122,9 +198,9 @@
     document.getElementById('reel-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const newReel = {
-        title: document.getElementById('r-title').value,
-        description: document.getElementById('r-desc').value,
-        url: document.getElementById('r-url').value,
+        title: document.getElementById('r-title').value.trim(),
+        description: document.getElementById('r-desc').value.trim(),
+        url: document.getElementById('r-url').value.trim(),
       };
       currentReels.unshift(newReel);
       await saveToGitHub();
@@ -135,12 +211,12 @@
       const content = btoa(unescape(encodeURIComponent(JSON.stringify(currentReels, null, 2))));
       const btn = document.querySelector('button[type="submit"]');
       const originalText = btn.innerText;
-      btn.innerText = 'Сохранение...';
+      btn.innerText = 'Сохранение на GitHub...';
       btn.disabled = true;
 
       try {
         const body = {
-          message: 'Update reels',
+          message: 'Update reels content',
           content: content
         };
         if (fileSha) body.sha = fileSha;
@@ -158,10 +234,10 @@
         const data = await res.json();
         fileSha = data.content.sha;
         renderReels();
-        alert('Успешно сохранено! Изменения появятся на сайте через 1-2 минуты.');
+        alert('Успешно сохранено! Изменения обновятся на сайте через 1-2 минуты.');
       } catch (e) {
         console.error(e);
-        alert('Ошибка при сохранении!');
+        alert('Ошибка при сохранении на GitHub! Проверьте токен.');
       } finally {
         btn.innerText = originalText;
         btn.disabled = false;

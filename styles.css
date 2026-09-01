@@ -1,63 +1,177 @@
+/* ==========================================================================
+   СТИЛИ САЙТА: АНАСТАСИЯ ЕМЕЛЬЯНОВА (Осознанный фитнес и нутрициология)
+   Цветовая палитра:
+   - Молочный / Беж: #F7F3EC / #FAF7F2 / #EFE9DE
+   - Шалфей: #8FA894 / #6E8B75 / #E8EFEA
+   - Пыльный терракот / Персик: #E8B4A0 / #D48A70 / #FAEDE8
+   - Графит (текст): #3A3733 / #6B665F
+   ========================================================================== */
+
+/* Фиксированный canvas на весь экран */
 #gl-canvas {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: 0;
   pointer-events: none;
+  object-fit: cover;
 }
 
+/* Мягкий полупрозрачный градиентный оверлей для идеальной читаемости светлого сайта поверх видео */
+.soft-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 30%, rgba(247, 243, 236, 0.45) 0%, rgba(247, 243, 236, 0.75) 75%, rgba(239, 233, 222, 0.9) 100%);
+}
+
+/* Природная зернистость (Grain) */
 .grain-overlay {
-  position: fixed; inset: 0; z-index: 2; pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  opacity: 0.35;
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
-.text-shadow {
-  text-shadow: 0 2px 10px rgba(0,0,0,0.8), 0 0 4px rgba(0,0,0,0.6);
+/* Плавный скролл */
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+  background-color: #F7F3EC;
 }
 
-html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
-body { overflow-x: hidden; }
+body {
+  overflow-x: hidden;
+  color: #3A3733;
+}
 
+/* Секции сторителлинга */
 .page {
   position: relative;
   z-index: 10;
   min-height: 100vh;
   scroll-snap-align: start;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity .7s ease, visibility 0s .7s;
+  opacity: 0.25;
+  transform: translateY(15px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .page.is-active {
   opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transition: opacity .7s ease;
+  transform: translateY(0);
 }
 
-.reveal-3d {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+/* Анимация проявления элементов внутри секции */
+.reveal-box {
+  opacity: 0.85;
+  transition: all 0.7s ease;
 }
-.page.is-active .reveal-3d         { opacity: 1; transform: translateY(0); }
-.page.is-active .reveal-3d:nth-child(2) { transition-delay: 0.1s; }
-.page.is-active .reveal-3d:nth-child(3) { transition-delay: 0.2s; }
-.page.is-active .reveal-3d:nth-child(4) { transition-delay: 0.3s; }
-.page.is-active .reveal-3d:nth-child(5) { transition-delay: 0.4s; }
+.page.is-active .reveal-box {
+  opacity: 1;
+}
 
+/* Виджет осознанного дыхания */
+.breath-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(232, 239, 234, 0.8);
+  border: 1px solid rgba(143, 168, 148, 0.4);
+  position: relative;
+  box-shadow: 0 4px 20px rgba(143, 168, 148, 0.15);
+}
+
+.breath-pulse-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(143, 168, 148, 0.5);
+  animation: breathPulse 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.breath-core {
+  animation: breathTextPulse 8s ease-in-out infinite;
+  font-size: 14px;
+}
+
+@keyframes breathPulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.4;
+    border-color: rgba(143, 168, 148, 0.3);
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.9;
+    border-color: rgba(232, 180, 160, 0.8);
+  }
+  100% {
+    transform: scale(0.85);
+    opacity: 0.4;
+    border-color: rgba(143, 168, 148, 0.3);
+  }
+}
+
+@keyframes breathTextPulse {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Карточка видео / Reels */
 .reel-card {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1rem;
+  background: rgba(255, 253, 248, 0.85);
+  border: 1px solid rgba(143, 168, 148, 0.3);
+  border-radius: 1.5rem;
   overflow: hidden;
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .reel-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-4px);
+  border-color: rgba(143, 168, 148, 0.6);
+  box-shadow: 0 12px 30px rgba(58, 55, 51, 0.08);
+}
+
+/* Навигационные ссылки */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background-color: #8FA894;
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Кастомный мягкий скроллбар */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F3EC;
+}
+::-webkit-scrollbar-thumb {
+  background: #C8D6CB;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8FA894;
 }

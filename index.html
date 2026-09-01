@@ -3,77 +3,881 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Емельянова Анастасия | Психология Похудения</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>Анастасия Емельянова | Осознанный фитнес и психология питания</title>
+  <meta name="description" content="Комплексное сопровождение: тренировки, питание и психология срывов без жёстких диет и чувства вины. Спорт как любовь к себе.">
+  
+  <!-- Шрифты: Cormorant Garamond & Fraunces (мягкие serif-заголовки) + Manrope (чистый sans-serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="styles.css">
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          colors: {
+            milk: '#F7F3EC',
+            milkLight: '#FAF7F2',
+            milkDark: '#EFE9DE',
+            sage: '#8FA894',
+            sageDark: '#6E8B75',
+            sageLight: '#E8EFEA',
+            terracotta: '#E8B4A0',
+            terracottaDark: '#D48A70',
+            terracottaLight: '#FAEDE8',
+            graphite: '#3A3733',
+            graphiteMuted: '#6B665F',
+          },
           fontFamily: {
-            heading: ['Cormorant Garamond', 'serif'],
+            serif: ['Fraunces', 'Cormorant Garamond', 'serif'],
+            cormorant: ['Cormorant Garamond', 'serif'],
             sans: ['Manrope', 'sans-serif'],
           }
         }
       }
     }
   </script>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-black text-white antialiased selection:bg-white selection:text-black">
-  <!-- Loader -->
-  <div id="loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black">
-    <div class="text-3xl font-heading mb-4 animate-pulse">Загрузка...</div>
-    <div class="w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
-      <div id="progress-bar" class="h-full bg-white w-0 transition-all duration-300"></div>
+<body class="bg-milk text-graphite font-sans antialiased selection:bg-terracotta/30 selection:text-graphite">
+
+  <!-- Прелоадер -->
+  <div id="loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-milk transition-opacity duration-700">
+    <div class="text-center px-6">
+      <span class="inline-block text-sage tracking-widest text-xs uppercase mb-3 font-medium">Пространство осознанного движения</span>
+      <h2 class="text-3xl md:text-4xl font-serif text-graphite mb-6 font-light">Анастасия Емельянова</h2>
+      <div class="w-48 h-1 bg-sageLight rounded-full overflow-hidden mx-auto">
+        <div id="progress-bar" class="h-full bg-sage w-0 transition-all duration-300 rounded-full"></div>
+      </div>
+      <p class="text-xs text-graphiteMuted mt-4 font-light tracking-wide">настройка дыхания страницы...</p>
     </div>
   </div>
 
+  <!-- Фоновый кинематографичный Canvas -->
   <canvas id="gl-canvas"></canvas>
+  <div class="soft-overlay"></div>
   <div class="grain-overlay"></div>
 
-  <nav class="fixed top-0 w-full z-40 px-6 py-4 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent">
-    <div class="font-heading text-2xl font-bold tracking-widest text-shadow">АНАСТАСИЯ</div>
-    <a href="#contact" class="px-6 py-2 border border-white/30 rounded-full text-sm uppercase tracking-widest hover:bg-white hover:text-black transition duration-300 backdrop-blur-sm">Записаться</a>
-  </nav>
+  <!-- Фиксированная шапка / Navbar -->
+  <header class="fixed top-0 left-0 w-full z-40 transition-all duration-300 backdrop-blur-md bg-milk/70 border-b border-sage/15" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#hero" class="flex flex-col group">
+        <span class="font-serif text-xl md:text-2xl tracking-wide text-graphite font-normal group-hover:text-sageDark transition">Анастасия Емельянова</span>
+        <span class="text-[10px] uppercase tracking-[0.2em] text-graphiteMuted">Фитнес • Нутрициология • Психология</span>
+      </a>
 
-  <div id="ui-layer" class="relative z-10 w-full h-full">
+      <!-- Десктопное меню -->
+      <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium text-graphite/85">
+        <a href="#hero" class="nav-link hover:text-sageDark transition py-1">Главная</a>
+        <a href="#philosophy" class="nav-link hover:text-sageDark transition py-1">Философия</a>
+        <a href="#nutrition" class="nav-link hover:text-sageDark transition py-1">Питание</a>
+        <a href="#steps" class="nav-link hover:text-sageDark transition py-1">Как работаем</a>
+        <a href="#programs" class="nav-link hover:text-sageDark transition py-1">Программы</a>
+        <a href="#reels" class="nav-link hover:text-sageDark transition py-1">Материалы</a>
+      </nav>
+
+      <!-- CTA кнопка -->
+      <div class="flex items-center space-x-3">
+        <button onclick="openBookingModal('Бесплатная диагностика')" class="px-5 py-2.5 rounded-full text-xs md:text-sm uppercase tracking-wider bg-sage hover:bg-sageDark text-white shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5">
+          Бесплатная диагностика
+        </button>
+        <!-- Мобильная кнопка меню -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-graphite hover:text-sage" aria-label="Меню">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Мобильное выпадающее меню -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-milk/95 border-t border-sage/20 px-6 py-6 space-y-4 text-center">
+      <a href="#hero" class="block text-graphite font-medium text-base hover:text-sage py-1 mobile-link">Главная</a>
+      <a href="#philosophy" class="block text-graphite font-medium text-base hover:text-sage py-1 mobile-link">Философия</a>
+      <a href="#nutrition" class="block text-graphite font-medium text-base hover:text-sage py-1 mobile-link">Питание</a>
+      <a href="#steps" class="block text-graphite font-medium text-base hover:text-sage py-1 mobile-link">Как работаем</a>
+      <a href="#programs" class="block text-graphite font-medium text-base hover:text-sage py-1 mobile-link">Программы и тарифы</a>
+      <a href="#recorded" class="block text-graphite font-medium text-base hover:text-sage py-1 mobile-link">Видео-тренировки</a>
+      <a href="#reels" class="block text-graphite font-medium text-base hover:text-sage py-1 mobile-link">Reels & Видео</a>
+      <a href="#offer" class="block text-xs text-graphiteMuted hover:text-sage py-1 mobile-link">Публичная оферта</a>
+    </div>
+  </header>
+
+  <!-- UI LAYER: СЕКЦИИ СТОРИТЕЛЛИНГА -->
+  <main id="ui-layer" class="relative z-10 w-full">
     <div class="stage">
+
+      <!-- ==========================================
+           БЛОК 0: HERO (Утро, Свобода и Философия)
+           ========================================== -->
+      <section class="page is-active flex flex-col justify-center items-center min-h-screen px-6 pt-24 pb-16" id="hero" data-index="0">
+        <div class="max-w-4xl mx-auto text-center reveal-box">
+          <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 border border-sage/30 text-sageDark text-xs font-medium uppercase tracking-widest mb-6 shadow-sm backdrop-blur-sm">
+            <span class="w-2 h-2 rounded-full bg-sage animate-pulse"></span>
+            Бережный фитнес • Без диет и срывов
+          </span>
+          
+          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-graphite font-normal leading-[1.15] mb-6 tracking-tight">
+            Спорт — это не подвиг.<br>
+            <span class="italic font-light text-sageDark">Это утро, которое у тебя есть</span>
+          </h1>
+
+          <p class="text-base sm:text-lg md:text-xl font-sans text-graphiteMuted max-w-2xl mx-auto font-light leading-relaxed mb-10">
+            Добро пожаловать в пространство, где фитнес — это лишь инструмент, а главная цель — свобода. Свобода от зависимости от весов, от голодовок и от синдрома «с понедельника начну».
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-14">
+            <button onclick="openBookingModal('Бесплатная диагностика')" class="w-full sm:w-auto px-8 py-4 rounded-full bg-sage hover:bg-sageDark text-white text-sm uppercase tracking-wider font-medium shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+              Начать без спешки
+            </button>
+            <a href="#philosophy" class="w-full sm:w-auto px-8 py-4 rounded-full bg-white/70 hover:bg-white text-graphite border border-sage/20 text-sm uppercase tracking-wider font-medium transition backdrop-blur-sm">
+              Узнать философию ↓
+            </a>
+          </div>
+
+          <!-- 4 Точки философии -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left max-w-4xl mx-auto pt-6 border-t border-sage/20">
+            <div class="p-5 rounded-2xl bg-white/65 backdrop-blur-md border border-sage/20 hover:border-sage/50 transition">
+              <div class="text-2xl mb-2">🌿</div>
+              <h3 class="font-serif text-lg font-medium text-graphite mb-1">Тело</h3>
+              <p class="text-xs text-graphiteMuted leading-relaxed">Как укрепить мышцы и осанку, не убивая суставы.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-white/65 backdrop-blur-md border border-sage/20 hover:border-sage/50 transition">
+              <div class="text-2xl mb-2">🥑</div>
+              <h3 class="font-serif text-lg font-medium text-graphite mb-1">Еда</h3>
+              <p class="text-xs text-graphiteMuted leading-relaxed">Как есть вкусно и не слетать в «зажор» на выходных.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-white/65 backdrop-blur-md border border-sage/20 hover:border-sage/50 transition">
+              <div class="text-2xl mb-2">🧠</div>
+              <h3 class="font-serif text-lg font-medium text-graphite mb-1">Голова</h3>
+              <p class="text-xs text-graphiteMuted leading-relaxed">Почему мы срываемся и как мягко вернуться в колею.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-white/65 backdrop-blur-md border border-sage/20 hover:border-sage/50 transition">
+              <div class="text-2xl mb-2">⏳</div>
+              <h3 class="font-serif text-lg font-medium text-graphite mb-1">Дисциплина</h3>
+              <p class="text-xs text-graphiteMuted leading-relaxed">Не через кнут и насилие, а через бережную систему.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==========================================
+           БЛОК 1: ЛЁГКОСТЬ (Пробежка & Дыхание)
+           ========================================== -->
+      <section class="page flex flex-col justify-center items-center min-h-screen px-6 py-20" id="philosophy" data-index="1">
+        <div class="max-w-3xl mx-auto text-center reveal-box">
+          <span class="text-xs uppercase tracking-[0.25em] text-sageDark font-semibold mb-4 block">Лёгкость движения</span>
+          
+          <h2 class="text-3xl sm:text-5xl md:text-6xl font-serif text-graphite font-normal leading-tight mb-8">
+            Не нужно бежать быстрее всех.<br>
+            <span class="italic font-light text-terracottaDark">Нужно просто выйти</span>
+          </h2>
+
+          <p class="text-base sm:text-xl text-graphiteMuted font-light leading-relaxed mb-10 max-w-2xl mx-auto">
+            Спорт — это не отработка съеденного и не самонаказание. Это возвращение к себе, к естественному ритму дыхания и радости в теле.
+          </p>
+
+          <!-- Виджет осознанного дыхания -->
+          <div class="p-8 rounded-3xl bg-white/70 backdrop-blur-md border border-sage/25 max-w-md mx-auto shadow-sm flex flex-col items-center">
+            <div class="breath-circle mb-5 relative flex items-center justify-center">
+              <div class="breath-pulse-ring"></div>
+              <div class="breath-core text-xs font-serif italic text-sageDark" id="breath-text">Вдох</div>
+            </div>
+            <h4 class="font-serif text-lg text-graphite font-medium mb-1">Сделайте паузу на один вдох</h4>
+            <p class="text-xs text-graphiteMuted text-center font-light leading-relaxed">
+              Плавный 4-секундный вдох и мягкий выдох. В таком темпе мы выстраиваем и тренировочный процесс.
+            </p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==========================================
+           БЛОК 2: ПИТАНИЕ (Завтрак & Без запретов)
+           ========================================== -->
+      <section class="page flex flex-col justify-center items-center min-h-screen px-6 py-20" id="nutrition" data-index="2">
+        <div class="max-w-4xl mx-auto text-center reveal-box">
+          <span class="text-xs uppercase tracking-[0.25em] text-terracottaDark font-semibold mb-4 block">Питание и психология</span>
+          
+          <h2 class="text-3xl sm:text-5xl md:text-6xl font-serif text-graphite font-normal leading-tight mb-8">
+            Еда — это тоже забота.<br>
+            <span class="italic font-light text-sageDark">Не список запретов, а тарелка, которую приятно готовить</span>
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mb-10">
+            <div class="p-6 rounded-3xl bg-white/75 backdrop-blur-md border border-terracotta/30 shadow-sm">
+              <div class="w-10 h-10 rounded-full bg-terracottaLight text-terracottaDark flex items-center justify-center text-lg mb-4 font-serif">1</div>
+              <h3 class="font-serif text-xl font-medium text-graphite mb-2">Без диет и чувства вины</h3>
+              <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed">
+                Никаких суровых ограничений. Разбираем срывы, переедания и эмоциональные качели, возвращая контакт с насыщением.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-white/75 backdrop-blur-md border border-terracotta/30 shadow-sm">
+              <div class="w-10 h-10 rounded-full bg-terracottaLight text-terracottaDark flex items-center justify-center text-lg mb-4 font-serif">2</div>
+              <h3 class="font-serif text-xl font-medium text-graphite mb-2">Рацион для реальной жизни</h3>
+              <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed">
+                Подберу меню из доступных продуктов, которое легко соблюдать в семье, офисе и путешествиях без постоянных контейнеров.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-white/75 backdrop-blur-md border border-terracotta/30 shadow-sm">
+              <div class="w-10 h-10 rounded-full bg-terracottaLight text-terracottaDark flex items-center justify-center text-lg mb-4 font-serif">3</div>
+              <h3 class="font-serif text-xl font-medium text-graphite mb-2">Свобода от «зажоров»</h3>
+              <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed">
+                Учимся есть вкусно и сытно каждый день, чтобы на выходных не возникало желания опустошить холодильник.
+              </p>
+            </div>
+          </div>
+
+          <button onclick="openBookingModal('Разбор питания и срывов')" class="px-8 py-3.5 rounded-full bg-terracotta hover:bg-terracottaDark text-white text-xs uppercase tracking-wider font-medium shadow-md transition transform hover:-translate-y-0.5">
+            Разобрать отношения с едой
+          </button>
+        </div>
+      </section>
+
+
+      <!-- ==========================================
+           БЛОК 3: СИЛА И РАСТЯЖКА (Практика)
+           ========================================== -->
+      <section class="page flex flex-col justify-center items-center min-h-screen px-6 py-20" id="practice" data-index="3">
+        <div class="max-w-4xl mx-auto text-center reveal-box">
+          <span class="text-xs uppercase tracking-[0.25em] text-sageDark font-semibold mb-4 block">Осознанная практика</span>
+          
+          <h2 class="text-3xl sm:text-5xl md:text-6xl font-serif text-graphite font-normal leading-tight mb-6">
+            Тело умеет говорить.<br>
+            <span class="italic font-light text-terracottaDark">Моя задача — научить тебя его слышать</span>
+          </h2>
+
+          <p class="text-sm sm:text-lg text-graphiteMuted font-light leading-relaxed mb-12 max-w-2xl mx-auto">
+            Каждое упражнение подобрано с учётом вашей анатомии и биомеханики. Мы укрепляем тело бережно, сохраняя суставы и осанку.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            <div class="p-6 rounded-3xl bg-white/75 backdrop-blur-md border border-sage/30 hover:shadow-md transition">
+              <span class="text-2xl mb-3 block">✨</span>
+              <h3 class="font-serif text-xl font-medium text-graphite mb-2">Осознанная сила</h3>
+              <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed">
+                Красивый рельеф и мышечный тонус без изнурительных перегрузок и травм.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-white/75 backdrop-blur-md border border-sage/30 hover:shadow-md transition">
+              <span class="text-2xl mb-3 block">🌿</span>
+              <h3 class="font-serif text-xl font-medium text-graphite mb-2">Гибкость и лёгкость</h3>
+              <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed">
+                Снимаем блоки в шее и пояснице, возвращая свободу движения в каждом шаге.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-white/75 backdrop-blur-md border border-sage/30 hover:shadow-md transition">
+              <span class="text-2xl mb-3 block">🕊️</span>
+              <h3 class="font-serif text-xl font-medium text-graphite mb-2">Устойчивый баланс</h3>
+              <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed">
+                Заряд бодрости и спокойная уверенность вместо истощения после зала.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==========================================
+           БЛОК 4: ФИЛОСОФИЯ (Кульминация)
+           ========================================== -->
+      <section class="page flex flex-col justify-center items-center min-h-screen px-6 py-20 text-center" id="culmination" data-index="4">
+        <div class="max-w-3xl mx-auto reveal-box">
+          <span class="text-xs uppercase tracking-[0.25em] text-terracottaDark font-semibold mb-4 block">Кульминация</span>
+          
+          <h2 class="text-3xl sm:text-5xl md:text-6xl font-serif text-graphite font-normal leading-tight mb-8">
+            Спорт — это не про «надо».<br>
+            <span class="italic font-light text-sageDark">Это про «хочу и могу».</span>
+          </h2>
+
+          <div class="p-8 sm:p-10 rounded-3xl bg-white/80 backdrop-blur-md border border-sage/25 shadow-sm space-y-5 text-left mb-8">
+            <p class="text-base sm:text-xl font-serif text-graphite leading-relaxed italic">
+              «Планомерно. Бережно. Навсегда.»
+            </p>
+            <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed">
+              Убираем токсичную мотивацию «быстрее-выше-сильнее». Только системный и комплексный подход. Если вы готовы перестать быть заложником диет и начать жить свободно, сильным и здоровым человеком — вы по адресу.
+            </p>
+            <p class="text-sm font-serif font-medium text-sageDark pt-2">
+              Поехали. Я покажу вам путь. Ваш путь.
+            </p>
+          </div>
+
+          <button onclick="openBookingModal('Консультация')" class="px-9 py-4 rounded-full bg-sage hover:bg-sageDark text-white text-xs uppercase tracking-wider font-medium shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
+            Пройти этот путь со мной
+          </button>
+        </div>
+      </section>
+
+
+      <!-- ==========================================
+           БЛОК 5: КАК ПРОХОДИТ РАБОТА
+           ========================================== -->
+      <section class="page flex flex-col justify-center items-center min-h-screen px-6 py-20" id="steps" data-index="5">
+        <div class="max-w-4xl mx-auto text-center reveal-box">
+          <span class="text-xs uppercase tracking-[0.25em] text-sageDark font-semibold mb-4 block">Понятный процесс</span>
+          
+          <h2 class="text-3xl sm:text-5xl font-serif text-graphite font-normal leading-tight mb-12">
+            Как проходит работа со мной
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mb-12">
+            <!-- Шаг 1 -->
+            <div class="p-8 rounded-3xl bg-white/80 backdrop-blur-md border border-sage/20 relative flex flex-col justify-between shadow-sm">
+              <div>
+                <span class="text-3xl font-serif text-sage font-light mb-3 block">01</span>
+                <h3 class="font-serif text-xl font-medium text-graphite mb-3">Консультация</h3>
+                <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed">
+                  Записываетесь на бесплатную диагностику — созваниваемся, обсуждаем вашу цель, текущее состояние, режим, привычки в питании и тренировках, барьеры, которые уже были.
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-sage/15 text-xs text-sageDark font-medium">Бесплатный созвон 20-30 мин</div>
+            </div>
+
+            <!-- Шаг 2 -->
+            <div class="p-8 rounded-3xl bg-white/80 backdrop-blur-md border border-sage/20 relative flex flex-col justify-between shadow-sm">
+              <div>
+                <span class="text-3xl font-serif text-terracotta font-light mb-3 block">02</span>
+                <h3 class="font-serif text-xl font-medium text-graphite mb-3">Программа</h3>
+                <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed">
+                  На основе консультации я составляю программу — тренировки и/или питание, в зависимости от выбранного вами формата и ритма жизни.
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-sage/15 text-xs text-terracottaDark font-medium">Индивидуальный план</div>
+            </div>
+
+            <!-- Шаг 3 -->
+            <div class="p-8 rounded-3xl bg-white/80 backdrop-blur-md border border-sage/20 relative flex flex-col justify-between shadow-sm">
+              <div>
+                <span class="text-3xl font-serif text-sageDark font-light mb-3 block">03</span>
+                <h3 class="font-serif text-xl font-medium text-graphite mb-3">Сопровождение</h3>
+                <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed">
+                  Идём по программе вместе: регулярная обратная связь, корректировки, психологическая поддержка на всех этапах.
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-sage/15 text-xs text-sageDark font-medium">Постоянная связь со мной</div>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-3xl bg-sageLight/70 border border-sage/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-left max-w-3xl mx-auto">
+            <div>
+              <h4 class="font-serif text-lg font-medium text-graphite">Готовы обсудить ваши цели?</h4>
+              <p class="text-xs text-graphiteMuted font-light">Созвон ни к чему не обязывает, но даст ясную карту шагов.</p>
+            </div>
+            <button onclick="openBookingModal('Бесплатная диагностика')" class="px-6 py-3 rounded-full bg-sage hover:bg-sageDark text-white text-xs uppercase tracking-wider font-medium shadow whitespace-nowrap transition">
+              Записаться на диагностику
+            </button>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==========================================
+           БЛОК 6: ПРОГРАММЫ И ТАРИФЫ
+           ========================================== -->
+      <section class="page flex flex-col justify-center items-center min-h-screen px-6 py-20" id="programs" data-index="6">
+        <div class="max-w-6xl mx-auto text-center reveal-box w-full">
+          <span class="text-xs uppercase tracking-[0.25em] text-terracottaDark font-semibold mb-4 block">Тарифы и форматы</span>
+          
+          <h2 class="text-3xl sm:text-5xl font-serif text-graphite font-normal leading-tight mb-4">
+            Мои программы
+          </h2>
+          <p class="text-xs sm:text-sm text-graphiteMuted font-light max-w-xl mx-auto mb-12">
+            Подходящий формат найдётся и для тех, кто хочет полное сопровождение «под ключ», и для тех, кому нужна просто программа тренировок или разбор рациона.
+          </p>
+
+          <!-- Сетка тарифов -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left mb-8">
+
+            <!-- 1. VIP Комплекс с онлайн-тренировками -->
+            <div class="p-8 rounded-3xl bg-white/90 backdrop-blur-md border-2 border-terracotta/60 shadow-lg relative flex flex-col justify-between transform hover:-translate-y-1 transition duration-300">
+              <div class="absolute -top-3 right-6 px-3 py-1 bg-terracotta text-white text-[10px] uppercase font-bold tracking-wider rounded-full shadow-sm">
+                Максимальный результат
+              </div>
+              <div>
+                <span class="text-xs uppercase tracking-widest text-terracottaDark font-semibold block mb-1">🔶 VIP формат</span>
+                <h3 class="font-serif text-2xl font-medium text-graphite mb-3">Комплексное сопровождение с онлайн-тренировками</h3>
+                <p class="text-xs text-graphiteMuted mb-6 font-light leading-relaxed">
+                  Для тех, кто хочет отдать процесс в надёжные руки и не разбираться во всём самому.
+                </p>
+
+                <ul class="space-y-3 text-xs text-graphite/90 mb-8 border-t border-b border-terracotta/20 py-4">
+                  <li class="flex items-start gap-2">
+                    <span class="text-terracotta font-bold">✓</span>
+                    <span>Онлайн-тренировки со мной (индивидуальный план, живая обратная связь)</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-terracotta font-bold">✓</span>
+                    <span>Составление и контроль меню под ваши вкусы</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-terracotta font-bold">✓</span>
+                    <span>Работа с психологией питания: разбор срывов, дисциплина, мотивация</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-terracotta font-bold">✓</span>
+                    <span>Коррекция режима сна и питьевого баланса</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-terracotta font-bold">✓</span>
+                    <span>Постоянная личная поддержка и правки 24/7</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="mb-4">
+                  <span class="text-xs text-graphiteMuted block">Длительность: 1 месяц</span>
+                  <span class="text-3xl font-serif text-graphite font-semibold">32 000 ₽</span>
+                </div>
+                <button onclick="openBookingModal('VIP Комплексное сопровождение (32.000 ₽)')" class="w-full py-3.5 rounded-full bg-terracotta hover:bg-terracottaDark text-white text-xs uppercase tracking-wider font-semibold shadow transition">
+                  Записаться на VIP
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. Комплекс без онлайн-тренировок -->
+            <div class="p-8 rounded-3xl bg-white/85 backdrop-blur-md border border-sage/30 shadow-md flex flex-col justify-between transform hover:-translate-y-1 transition duration-300">
+              <div>
+                <span class="text-xs uppercase tracking-widest text-sageDark font-semibold block mb-1">🔷 Комплекс</span>
+                <h3 class="font-serif text-2xl font-medium text-graphite mb-3">Комплексное сопровождение</h3>
+                <p class="text-xs text-graphiteMuted mb-6 font-light leading-relaxed">
+                  (Занятия офлайн со мной или самостоятельно — дома / в зале).
+                </p>
+
+                <ul class="space-y-3 text-xs text-graphite/90 mb-8 border-t border-b border-sage/20 py-4">
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Та же глубина работы по питанию и психологии, что и в VIP</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Составление и контроль индивидуального меню</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Разбор срывов, дисциплина, мотивация</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Коррекция режима сна и воды, регулярная связь</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-graphiteMuted italic">
+                    <span>* Офлайн-тренировки оплачиваются отдельно</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="mb-4">
+                  <span class="text-xs text-graphiteMuted block">Длительность: 1 месяц</span>
+                  <span class="text-3xl font-serif text-graphite font-semibold">20 000 ₽</span>
+                </div>
+                <button onclick="openBookingModal('Комплексное сопровождение без онлайн-тренировок (20.000 ₽)')" class="w-full py-3.5 rounded-full bg-sage hover:bg-sageDark text-white text-xs uppercase tracking-wider font-semibold shadow transition">
+                  Записаться на программу
+                </button>
+              </div>
+            </div>
+
+            <!-- 3. Онлайн-тренировки -->
+            <div class="p-8 rounded-3xl bg-white/80 backdrop-blur-md border border-sage/25 shadow-sm flex flex-col justify-between transform hover:-translate-y-1 transition duration-300">
+              <div>
+                <span class="text-xs uppercase tracking-widest text-sageDark font-semibold block mb-1">🔹 Тренировки</span>
+                <h3 class="font-serif text-2xl font-medium text-graphite mb-3">Онлайн-тренировки со мной</h3>
+                <p class="text-xs text-graphiteMuted mb-6 font-light leading-relaxed">
+                  Тренируемся вместе на связи в режиме реального времени.
+                </p>
+
+                <ul class="space-y-3 text-xs text-graphite/90 mb-8 border-t border-b border-sage/15 py-4">
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span><strong>8 тренировок в месяц</strong> по видеосвязи</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Личный контроль каждого движения и техники</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Подбор нагрузки под самочувствие в конкретный день</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Удобный видеомессенджер</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="mb-4">
+                  <span class="text-xs text-graphiteMuted block">8 тренировок / месяц</span>
+                  <span class="text-3xl font-serif text-graphite font-semibold">15 000 ₽</span>
+                </div>
+                <button onclick="openBookingModal('Онлайн-тренировки со мной 8 зан. (15.000 ₽)')" class="w-full py-3.5 rounded-full bg-white text-graphite border border-sage/40 hover:bg-sage hover:text-white text-xs uppercase tracking-wider font-semibold shadow-sm transition">
+                  Записаться на тренировки
+                </button>
+              </div>
+            </div>
+
+            <!-- 4. Программа тренировок + фидбек -->
+            <div class="p-8 rounded-3xl bg-white/80 backdrop-blur-md border border-sage/25 shadow-sm flex flex-col justify-between transform hover:-translate-y-1 transition duration-300">
+              <div>
+                <span class="text-xs uppercase tracking-widest text-sageDark font-semibold block mb-1">🔹 Самостоятельно</span>
+                <h3 class="font-serif text-2xl font-medium text-graphite mb-3">Программа тренировок + обратная связь</h3>
+                <p class="text-xs text-graphiteMuted mb-6 font-light leading-relaxed">
+                  Тренируетесь в своём темпе, я на подхвате.
+                </p>
+
+                <ul class="space-y-3 text-xs text-graphite/90 mb-8 border-t border-b border-sage/15 py-4">
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Программа на <strong>8 тренировок в месяц</strong> для зала или дома</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Видео-разбор вашей техники по запросу</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Ответы на вопросы и оперативная поддержка</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="mb-4">
+                  <span class="text-xs text-graphiteMuted block">8 тренировок / месяц</span>
+                  <span class="text-3xl font-serif text-graphite font-semibold">8 000 ₽</span>
+                </div>
+                <button onclick="openBookingModal('Программа тренировок + обратная связь (8.000 ₽)')" class="w-full py-3.5 rounded-full bg-white text-graphite border border-sage/40 hover:bg-sage hover:text-white text-xs uppercase tracking-wider font-semibold shadow-sm transition">
+                  Выбрать программу
+                </button>
+              </div>
+            </div>
+
+            <!-- 5. Питание -->
+            <div class="p-8 rounded-3xl bg-white/80 backdrop-blur-md border border-sage/25 shadow-sm flex flex-col justify-between transform hover:-translate-y-1 transition duration-300">
+              <div>
+                <span class="text-xs uppercase tracking-widest text-sageDark font-semibold block mb-1">🔹 Рацион</span>
+                <h3 class="font-serif text-2xl font-medium text-graphite mb-3">Питание</h3>
+                <p class="text-xs text-graphiteMuted mb-6 font-light leading-relaxed">
+                  Для тех, кому нужен только сбалансированный рацион.
+                </p>
+
+                <ul class="space-y-3 text-xs text-graphite/90 mb-8 border-t border-b border-sage/15 py-4">
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Составление персонального меню</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Подробный разбор текущего рациона</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Готовая продуктовая корзина для магазина</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sage font-bold">✓</span>
+                    <span>Рекомендации и контроль по питанию</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="mb-4">
+                  <span class="text-xs text-graphiteMuted block">Индивидуальный рацион</span>
+                  <span class="text-3xl font-serif text-graphite font-semibold">6 000 ₽</span>
+                </div>
+                <button onclick="openBookingModal('Питание и рацион (6.000 ₽)')" class="w-full py-3.5 rounded-full bg-white text-graphite border border-sage/40 hover:bg-sage hover:text-white text-xs uppercase tracking-wider font-semibold shadow-sm transition">
+                  Получить план питания
+                </button>
+              </div>
+            </div>
+
+            <!-- 6. Спецпредложение Комбо -->
+            <div class="p-8 rounded-3xl bg-gradient-to-br from-terracottaLight to-sageLight border-2 border-sage/40 shadow-md flex flex-col justify-between transform hover:-translate-y-1 transition duration-300">
+              <div>
+                <div class="inline-block px-3 py-1 bg-sageDark text-white text-[10px] uppercase font-bold tracking-wider rounded-full mb-3 shadow-sm">
+                  🔥 Спецпредложение
+                </div>
+                <h3 class="font-serif text-2xl font-medium text-graphite mb-2">Комбо: Тренировки + Питание</h3>
+                <p class="text-xs text-graphiteMuted mb-6 font-light leading-relaxed">
+                  Идеальный тандем для самостоятельного прогресса с поддержкой.
+                </p>
+
+                <ul class="space-y-3 text-xs text-graphite/90 mb-8 border-t border-b border-sage/20 py-4">
+                  <li class="flex items-start gap-2">
+                    <span class="text-sageDark font-bold">✓</span>
+                    <span>Программа тренировок на месяц + обратная связь</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sageDark font-bold">✓</span>
+                    <span>Полный расчёт и составление рациона питания</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-sageDark font-bold">✓</span>
+                    <span>Выгода 2 000 ₽ при покупке пакетом</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="mb-4">
+                  <span class="text-xs line-through text-graphiteMuted block">14 000 ₽</span>
+                  <span class="text-3xl font-serif text-graphite font-semibold">12 000 ₽</span>
+                </div>
+                <button onclick="openBookingModal('Комбо: Тренировки + Питание (12.000 ₽)')" class="w-full py-3.5 rounded-full bg-sageDark hover:bg-graphite text-white text-xs uppercase tracking-wider font-semibold shadow transition">
+                  Записаться на комбо
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               БЛОК: ВИДЕО-ТРЕНИРОВКИ В ЗАПИСИ
+               ========================================== -->
+          <div class="mt-12 p-8 sm:p-12 rounded-3xl bg-white/95 backdrop-blur-md border border-sage/30 shadow-md text-left flex flex-col lg:flex-row items-center justify-between gap-8" id="recorded">
+            <div class="max-w-2xl">
+              <div class="inline-flex items-center gap-2 px-3 py-1 bg-sageLight text-sageDark rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+                <span>🎬 Быстрый старт</span>
+              </div>
+              <h3 class="text-2xl sm:text-4xl font-serif text-graphite font-normal mb-3">
+                Видео-тренировки в записи
+              </h3>
+              <p class="text-sm font-medium text-sageDark mb-3">
+                4 тренировки, которые можно выполнять дома, в тренажерном зале, в отпуске.
+              </p>
+              <p class="text-xs sm:text-sm text-graphiteMuted font-light leading-relaxed mb-4">
+                Хотите посмотреть, как я объясняю и веду занятия, прежде чем брать полноценную программу? Начните отсюда. Оплатили → материалы пришли на почту → занимаетесь когда удобно.
+              </p>
+              <div class="flex flex-wrap gap-4 text-xs text-graphiteMuted">
+                <span class="flex items-center gap-1">⏱️ По 30-40 минут</span>
+                <span class="flex items-center gap-1">📱 Доступ с любого устройства</span>
+                <span class="flex items-center gap-1">📩 Мгновенная отправка на Email</span>
+              </div>
+            </div>
+
+            <div class="w-full lg:w-auto text-center lg:text-right shrink-0">
+              <span class="text-xs text-graphiteMuted block mb-1">Разовый доступ навсегда</span>
+              <span class="text-4xl sm:text-5xl font-serif text-graphite font-bold block mb-5">999 ₽</span>
+              <button onclick="openPaymentModal('Видео-тренировки в записи (4 урока)', 999)" class="w-full sm:w-auto px-10 py-4 rounded-full bg-terracotta hover:bg-terracottaDark text-white text-xs uppercase tracking-wider font-semibold shadow-md transition transform hover:-translate-y-0.5">
+                Купить тренировки за 999 ₽
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ==========================================
+           БЛОК 7: ПОЛЕЗНЫЕ МАТЕРИАЛЫ / REELS
+           ========================================== -->
+      <section class="page flex flex-col justify-center items-center min-h-screen px-6 py-20" id="reels" data-index="7">
+        <div class="max-w-6xl mx-auto text-center reveal-box w-full">
+          <span class="text-xs uppercase tracking-[0.25em] text-sageDark font-semibold mb-4 block">База знаний</span>
+          
+          <h2 class="text-3xl sm:text-5xl font-serif text-graphite font-normal leading-tight mb-4">
+            Полезные материалы и разборы
+          </h2>
+          <p class="text-xs sm:text-sm text-graphiteMuted font-light max-w-xl mx-auto mb-12">
+            Короткие видео про психологию срывов, технику упражнений и простые привычки для лёгкости тела.
+          </p>
+
+          <!-- Контейнер карточек (подгружается из reels.json) -->
+          <div id="reels-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left mb-10">
+            <!-- Скрипт подгружает сюда видео -->
+          </div>
+
+          <div class="flex justify-center items-center gap-4 text-xs text-graphiteMuted">
+            <a href="admin.html" class="inline-flex items-center gap-1 text-sageDark hover:underline">
+              <span>⚙️ Панель управления для Анастасии</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==========================================
+           БЛОК 8: ПУБЛИЧНАЯ ОФЕРТА И ФУТЕР
+           ========================================== -->
+      <footer class="page flex flex-col justify-center items-center min-h-screen px-6 py-20 bg-milkDark/50 border-t border-sage/20" id="offer" data-index="8">
+        <div class="max-w-4xl mx-auto text-center reveal-box w-full">
+          <span class="text-xs uppercase tracking-[0.25em] text-sageDark font-semibold mb-4 block">Контакты и юридическая информация</span>
+          
+          <h2 class="text-3xl sm:text-5xl font-serif text-graphite font-normal leading-tight mb-8">
+            Напишите мне напрямую
+          </h2>
+
+          <div class="p-8 rounded-3xl bg-white/80 backdrop-blur-md border border-sage/30 shadow-sm max-w-2xl mx-auto mb-12">
+            <p class="text-sm text-graphiteMuted mb-6 font-light">
+              Выберите удобный мессенджер для связи или записи на бесплатную диагностическую консультацию:
+            </p>
+            <div class="flex flex-wrap gap-4 justify-center">
+              <a href="https://t.me/AnastasiaEmelyanova" target="_blank" class="px-6 py-3.5 rounded-full bg-sage hover:bg-sageDark text-white text-xs uppercase tracking-wider font-semibold flex items-center gap-2 shadow transition">
+                <span>✈️ Telegram</span>
+              </a>
+              <a href="https://wa.me/79774162517" target="_blank" class="px-6 py-3.5 rounded-full bg-white text-graphite border border-sage/40 hover:bg-sageLight text-xs uppercase tracking-wider font-semibold flex items-center gap-2 shadow-sm transition">
+                <span>💬 WhatsApp</span>
+              </a>
+              <a href="tel:+79774162517" class="px-6 py-3.5 rounded-full bg-white text-graphite border border-sage/40 hover:bg-sageLight text-xs uppercase tracking-wider font-semibold flex items-center gap-2 shadow-sm transition">
+                <span>📞 +7 (977) 416-25-17</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Аккордеон Публичной оферты -->
+          <div class="border border-sage/25 rounded-2xl bg-white/70 backdrop-blur-sm text-left overflow-hidden mb-12 max-w-3xl mx-auto shadow-sm">
+            <button onclick="toggleOfferAccordion()" class="w-full p-5 flex justify-between items-center text-sm font-serif font-medium text-graphite hover:text-sageDark transition">
+              <span>📄 Публичная оферта на оказание услуг (Емельянова А. А.)</span>
+              <span id="offer-chevron" class="text-xs transition-transform transform duration-300">▼ Развернуть</span>
+            </button>
+            
+            <div id="offer-content" class="hidden p-6 text-xs text-graphiteMuted space-y-4 border-t border-sage/15 max-h-96 overflow-y-auto leading-relaxed bg-milk/40 font-light">
+              <p class="font-medium text-graphite">Настоящий документ является публичной офертой Емельяновой Анастасии Анатольевны, зарегистрированной в качестве плательщика налога на профессиональный доход (самозанятого), ИНН 773399996571, далее — «Исполнитель», адресованной физическим лицам, далее — «Заказчик», и содержит все существенные условия оказания услуг.</p>
+              
+              <h5 class="font-bold text-graphite">1. Предмет оферты</h5>
+              <p>1.1. Исполнитель оказывает Заказчику консультационные услуги в сфере фитнеса и питания: составление и/или проведение тренировочных программ, составление и контроль программ питания, консультации по психологии пищевого поведения, а также предоставляет доступ к записанным видео-материалам (далее — «Услуги»), состав и стоимость которых указаны на сайте.</p>
+              <p>1.2. Оплата Заказчиком выбранной Услуги означает полное и безоговорочное принятие условий настоящей оферты (акцепт).</p>
+
+              <h5 class="font-bold text-graphite">2. Порядок оказания услуг</h5>
+              <p>2.1. Формат, длительность и содержание Услуги определяются выбранным Заказчиком тарифом, описание которого размещено на сайте.</p>
+              <p>2.2. Услуги оказываются дистанционно — посредством видеосвязи, мессенджеров, электронной почты и/или предоставления доступа к облачному хранилищу с материалами.</p>
+              <p>2.3. Доступ к записанным видео-тренировкам предоставляется Заказчику после поступления оплаты в течение 24-х часов на электронную почту, указанную при оформлении заказа.</p>
+
+              <h5 class="font-bold text-graphite">3. Стоимость и порядок оплаты</h5>
+              <p>3.1. Стоимость Услуг указана на сайте и может быть изменена Исполнителем в одностороннем порядке; изменение стоимости не распространяется на уже оплаченные Услуги.</p>
+              <p>3.2. Оплата производится в предварительном порядке (100% предоплата) удобным для Заказчика способом, указанным на сайте.</p>
+              <p>3.3. Исполнитель, применяющий налог на профессиональный доход, формирует чек в приложении «Мой налог» и направляет его Заказчику после поступления оплаты.</p>
+
+              <h5 class="font-bold text-graphite">4. Права и обязанности сторон</h5>
+              <p>4.1. Исполнитель обязуется оказать Услуги качественно и в срок, предоставлять рекомендации с учётом информации, сообщённой Заказчиком о состоянии здоровья и целях.</p>
+              <p>4.2. Заказчик обязуется предоставлять достоверную информацию о состоянии здоровья, противопоказаниях и самочувствии, а также своевременно сообщать об изменениях, которые могут повлиять на программу.</p>
+              <p>4.3. Заказчик подтверждает, что проконсультировался с врачом об отсутствии противопоказаний к физическим нагрузкам и изменению рациона питания, либо принимает на себя все риски, связанные с их отсутствием.</p>
+              <p>4.4. Рекомендации Исполнителя носят консультационный характер и не заменяют консультацию врача, диетолога или иного медицинского специалиста.</p>
+
+              <h5 class="font-bold text-graphite">5. Возврат и отказ от услуг</h5>
+              <p>5.1. Заказчик вправе отказаться от Услуги до момента начала её оказания (до первого созвона/предоставления материалов) с возвратом полной стоимости.</p>
+              <p>5.2. После получения доступа к записанным видео-материалам возврат не производится, за исключением случаев, предусмотренных законодательством о защите прав потребителей.</p>
+              <p>5.3. При отказе Заказчика от комплексной программы после её начала возврат производится за вычетом стоимости фактически оказанных услуг.</p>
+
+              <h5 class="font-bold text-graphite">6. Конфиденциальность и персональные данные</h5>
+              <p>6.1. Исполнитель обязуется не передавать третьим лицам персональные данные и информацию о состоянии здоровья Заказчика, кроме случаев, предусмотренных законодательством.</p>
+              <p>6.2. Оплачивая Услугу, Заказчик даёт согласие на обработку своих персональных данных в объёме, необходимом для оказания Услуг.</p>
+
+              <h5 class="font-bold text-graphite">7. Ответственность сторон</h5>
+              <p>7.1. Исполнитель не несёт ответственности за последствия, вызванные сокрытием Заказчиком информации о состоянии здоровья, противопоказаниях, а также несоблюдением рекомендаций.</p>
+              <p>7.2. Ответственность сторон определяется действующим законодательством РФ.</p>
+
+              <h5 class="font-bold text-graphite">8. Срок действия и реквизиты</h5>
+              <p>8.1. Оферта действует бессрочно до момента её отзыва или изменения Исполнителем.</p>
+              <p>8.2. Реквизиты Исполнителя: <strong>Емельянова Анастасия Анатольевна</strong>, ИНН <strong>773399996571</strong>, телефон/email для связи: <strong>+7 977 4162517</strong>.</p>
+            </div>
+          </div>
+
+          <div class="text-xs text-graphiteMuted/80 space-y-2">
+            <p>© 2026 Емельянова Анастасия Анатольевна. ИНН 773399996571.</p>
+            <p>Бережный фитнес и нутрициология. Все права защищены.</p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+
+  <!-- ==========================================
+       МОДАЛЬНОЕ ОКНО ЗАПИСИ НА ДИАГНОСТИКУ
+       ========================================== -->
+  <div id="booking-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-graphite/40 backdrop-blur-sm transition-opacity">
+    <div class="bg-milk p-8 rounded-3xl max-w-md w-full border border-sage/30 shadow-2xl relative">
+      <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-graphiteMuted hover:text-graphite text-2xl font-light">&times;</button>
       
-      <!-- HERO -->
-      <section class="page is-active flex flex-col items-center justify-center text-center px-6 min-h-screen" id="hero">
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading mb-6 text-shadow reveal-3d max-w-4xl">Похудение без каторги</h1>
-        <p class="text-lg md:text-2xl font-sans font-light max-w-2xl text-shadow reveal-3d opacity-90">Тело меняется, когда меняется жизнь. Комплексное сопровождение через психологию срывов.</p>
-      </section>
+      <span class="text-xs uppercase tracking-widest text-sageDark font-semibold block mb-2">Бесплатный созвон 20 мин</span>
+      <h3 class="font-serif text-2xl font-medium text-graphite mb-2" id="modal-title">Запись на диагностику</h3>
+      <p class="text-xs text-graphiteMuted mb-6 font-light" id="modal-desc">
+        Оставьте контакты или напишите мне напрямую в мессенджер:
+      </p>
 
-      <!-- PSYCHOLOGY -->
-      <section class="page flex flex-col items-start justify-center px-6 md:px-24 min-h-screen" id="psychology">
-        <h2 class="text-4xl md:text-6xl font-heading mb-8 text-shadow reveal-3d">Дело не в силе воли</h2>
-        <div class="max-w-xl space-y-6 reveal-3d">
-          <p class="text-lg md:text-xl text-shadow opacity-90 font-light">Срывы — это не про слабохарактерность. Это про то, что тело и психика работают в режиме дефицита и стресса.</p>
-          <p class="text-lg md:text-xl text-shadow opacity-90 font-light">Пока меняется только тарелка на столе, а не образ мышления — результат временный. Мы научимся справляться с эмоциями без еды.</p>
+      <!-- Быстрые кнопки мессенджеров -->
+      <div class="grid grid-cols-2 gap-3 mb-6">
+        <a id="btn-tg-direct" href="https://t.me/AnastasiaEmelyanova" target="_blank" class="p-3 rounded-2xl bg-sage/15 hover:bg-sage/25 text-sageDark border border-sage/30 text-center text-xs font-semibold flex items-center justify-center gap-1.5 transition">
+          <span>✈️ Telegram</span>
+        </a>
+        <a id="btn-wa-direct" href="https://wa.me/79774162517" target="_blank" class="p-3 rounded-2xl bg-terracotta/15 hover:bg-terracotta/25 text-terracottaDark border border-terracotta/30 text-center text-xs font-semibold flex items-center justify-center gap-1.5 transition">
+          <span>💬 WhatsApp</span>
+        </a>
+      </div>
+
+      <div class="relative flex py-2 items-center mb-4">
+        <div class="flex-grow border-t border-sage/20"></div>
+        <span class="flex-shrink mx-3 text-[10px] uppercase tracking-wider text-graphiteMuted">или заполните форму</span>
+        <div class="flex-grow border-t border-sage/20"></div>
+      </div>
+
+      <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+        <input type="hidden" id="form-tariff" name="tariff" value="Бесплатная диагностика">
+        <div>
+          <label class="block text-xs font-medium text-graphite mb-1">Ваше имя</label>
+          <input type="text" id="client-name" required placeholder="Как к вам обращаться?" class="w-full px-4 py-3 bg-white/80 border border-sage/30 rounded-2xl text-sm focus:outline-none focus:border-sage transition">
         </div>
-      </section>
-
-      <!-- REELS (DYNAMIC) -->
-      <section class="page flex flex-col items-center justify-center px-6 min-h-screen" id="reels">
-        <h2 class="text-4xl md:text-6xl font-heading mb-12 text-shadow reveal-3d text-center">Полезные материалы</h2>
-        <div id="reels-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl reveal-3d">
-          <!-- Реелсы загружаются скриптом app.js -->
+        <div>
+          <label class="block text-xs font-medium text-graphite mb-1">Telegram или Телефон</label>
+          <input type="text" id="client-contact" required placeholder="@username или +7 (999) 000-00-00" class="w-full px-4 py-3 bg-white/80 border border-sage/30 rounded-2xl text-sm focus:outline-none focus:border-sage transition">
         </div>
-      </section>
+        <div>
+          <label class="block text-xs font-medium text-graphite mb-1">Комментарий / Цель (необязательно)</label>
+          <textarea id="client-note" rows="2" placeholder="Например: хочу наладить питание и убрать срывы" class="w-full px-4 py-3 bg-white/80 border border-sage/30 rounded-2xl text-sm focus:outline-none focus:border-sage transition"></textarea>
+        </div>
+        <button type="submit" class="w-full py-4 rounded-full bg-sage hover:bg-sageDark text-white text-xs uppercase tracking-wider font-semibold shadow transition">
+          Отправить заявку
+        </button>
+      </form>
+    </div>
+  </div>
 
-      <!-- CONTACT -->
-      <section class="page flex flex-col items-center justify-center text-center px-6 min-h-screen" id="contact">
-        <h2 class="text-4xl md:text-6xl font-heading mb-8 text-shadow reveal-3d">Готовы изменить систему?</h2>
-        <p class="text-lg font-light mb-10 max-w-lg text-shadow reveal-3d">Запишитесь на бесплатную диагностическую консультацию.</p>
-        <form class="w-full max-w-md space-y-4 reveal-3d flex flex-col" onsubmit="event.preventDefault(); alert('Заявка отправлена!');">
-          <input type="text" placeholder="Имя" class="w-full px-6 py-4 bg-black/40 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-white backdrop-blur-md" required>
-          <input type="text" placeholder="Telegram / Телефон" class="w-full px-6 py-4 bg-black/40 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-white backdrop-blur-md" required>
-          <button type="submit" class="w-full px-6 py-4 bg-white text-black font-semibold uppercase tracking-widest rounded-xl hover:bg-gray-200 transition">Оставить заявку</button>
-        </form>
-      </section>
 
+  <!-- ==========================================
+       МОДАЛЬНОЕ ОКНО ОПЛАТЫ ВИДЕО-ТРЕНИРОВОК
+       ========================================== -->
+  <div id="payment-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-graphite/40 backdrop-blur-sm transition-opacity">
+    <div class="bg-milk p-8 rounded-3xl max-w-md w-full border border-terracotta/40 shadow-2xl relative">
+      <button onclick="closePaymentModal()" class="absolute top-5 right-5 text-graphiteMuted hover:text-graphite text-2xl font-light">&times;</button>
+      
+      <span class="text-xs uppercase tracking-widest text-terracottaDark font-semibold block mb-2">Мгновенный доступ</span>
+      <h3 class="font-serif text-2xl font-medium text-graphite mb-2" id="pay-title">Видео-тренировки в записи</h3>
+      <p class="text-xs text-graphiteMuted mb-6 font-light">
+        Введите ваш Email, на который сразу после оплаты придут 4 видео-тренировки:
+      </p>
+
+      <form id="payment-form" onsubmit="handlePaymentSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-graphite mb-1">Ваш Email (для получения видео)</label>
+          <input type="email" id="pay-email" required placeholder="name@example.com" class="w-full px-4 py-3 bg-white/80 border border-terracotta/30 rounded-2xl text-sm focus:outline-none focus:border-terracotta transition">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-graphite mb-1">Имя</label>
+          <input type="text" id="pay-name" required placeholder="Ваше имя" class="w-full px-4 py-3 bg-white/80 border border-terracotta/30 rounded-2xl text-sm focus:outline-none focus:border-terracotta transition">
+        </div>
+        
+        <div class="p-4 rounded-2xl bg-terracottaLight/60 border border-terracotta/30 flex justify-between items-center text-sm">
+          <span>Сумма к оплате:</span>
+          <span class="font-serif font-bold text-lg text-graphite">999 ₽</span>
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-full bg-terracotta hover:bg-terracottaDark text-white text-xs uppercase tracking-wider font-semibold shadow-md transition">
+          Перейти к безопасной оплате (999 ₽)
+        </button>
+        <p class="text-[10px] text-center text-graphiteMuted font-light">
+          Нажимая кнопку, вы соглашаетесь с условиями <a href="#offer" onclick="closePaymentModal()" class="underline">Публичной оферты</a>. Чек формируется в приложении «Мой налог».
+        </p>
+      </form>
     </div>
   </div>
 
