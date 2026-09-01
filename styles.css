@@ -1,13 +1,7 @@
 /* ==========================================================================
-   СТИЛИ САЙТА: АНАСТАСИЯ ЕМЕЛЬЯНОВА (Осознанный фитнес и нутрициология)
-   Цветовая палитра:
-   - Молочный / Беж: #F7F3EC / #FAF7F2 / #EFE9DE
-   - Шалфей: #8FA894 / #6E8B75 / #E8EFEA
-   - Пыльный терракот / Персик: #E8B4A0 / #D48A70 / #FAEDE8
-   - Графит (текст): #3A3733 / #6B665F
+   СТИЛИ: АНАСТАСИЯ ЕМЕЛЬЯНОВА (Современный, яркий и четкий дизайн в стиле WOWFIT)
    ========================================================================== */
 
-/* Фиксированный canvas на весь экран */
 #gl-canvas {
   position: fixed;
   inset: 0;
@@ -18,46 +12,33 @@
   object-fit: cover;
 }
 
-/* Мягкий полупрозрачный градиентный оверлей для идеальной читаемости светлого сайта поверх видео */
-.soft-overlay {
+.bg-overlay {
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 30%, rgba(247, 243, 236, 0.45) 0%, rgba(247, 243, 236, 0.75) 75%, rgba(239, 233, 222, 0.9) 100%);
+  background: radial-gradient(circle at 50% 35%, rgba(248, 250, 249, 0.4) 0%, rgba(248, 250, 249, 0.75) 70%, rgba(240, 244, 242, 0.9) 100%);
 }
 
-/* Природная зернистость (Grain) */
-.grain-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0.18;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
-}
-
-/* Плавный скролл */
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y proximity;
-  background-color: #F7F3EC;
+  background-color: #F8FAF9;
 }
 
 body {
   overflow-x: hidden;
-  color: #3A3733;
+  color: #111827;
 }
 
-/* Секции сторителлинга */
 .page {
   position: relative;
   z-index: 10;
   min-height: 100vh;
   scroll-snap-align: start;
-  opacity: 0.25;
-  transform: translateY(15px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.35;
+  transform: translateY(12px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .page.is-active {
@@ -65,113 +46,49 @@ body {
   transform: translateY(0);
 }
 
-/* Анимация проявления элементов внутри секции */
-.reveal-box {
-  opacity: 0.85;
-  transition: all 0.7s ease;
-}
-.page.is-active .reveal-box {
-  opacity: 1;
-}
-
-/* Виджет осознанного дыхания */
-.breath-circle {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background: rgba(232, 239, 234, 0.8);
-  border: 1px solid rgba(143, 168, 148, 0.4);
-  position: relative;
-  box-shadow: 0 4px 20px rgba(143, 168, 148, 0.15);
-}
-
-.breath-pulse-ring {
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(143, 168, 148, 0.5);
-  animation: breathPulse 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-}
-
-.breath-core {
-  animation: breathTextPulse 8s ease-in-out infinite;
-  font-size: 14px;
-}
-
-@keyframes breathPulse {
-  0% {
-    transform: scale(0.85);
-    opacity: 0.4;
-    border-color: rgba(143, 168, 148, 0.3);
-  }
-  50% {
-    transform: scale(1.25);
-    opacity: 0.9;
-    border-color: rgba(232, 180, 160, 0.8);
-  }
-  100% {
-    transform: scale(0.85);
-    opacity: 0.4;
-    border-color: rgba(143, 168, 148, 0.3);
-  }
-}
-
-@keyframes breathTextPulse {
-  0%, 100% {
-    transform: scale(0.95);
-    opacity: 0.75;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-}
-
-/* Карточка видео / Reels */
 .reel-card {
-  background: rgba(255, 253, 248, 0.85);
-  border: 1px solid rgba(143, 168, 148, 0.3);
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
   border-radius: 1.5rem;
   overflow: hidden;
-  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .reel-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(143, 168, 148, 0.6);
-  box-shadow: 0 12px 30px rgba(58, 55, 51, 0.08);
+  border-color: #10B981;
+  box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.2);
 }
 
-/* Навигационные ссылки */
 .nav-link {
   position: relative;
 }
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: -2px;
+  bottom: -4px;
   left: 0;
   width: 0;
-  height: 1.5px;
-  background-color: #8FA894;
-  transition: width 0.3s ease;
+  height: 2.5px;
+  background-color: #10B981;
+  border-radius: 2px;
+  transition: width 0.25s ease;
 }
 .nav-link:hover::after,
 .nav-link.active::after {
   width: 100%;
 }
 
-/* Кастомный мягкий скроллбар */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: #F7F3EC;
+  background: #F3F4F6;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C8D6CB;
-  border-radius: 4px;
+  background: #A7F3D0;
+  border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #8FA894;
+  background: #10B981;
 }
